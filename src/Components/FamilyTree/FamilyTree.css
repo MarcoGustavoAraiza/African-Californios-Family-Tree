@@ -1,0 +1,118 @@
+body, html {
+
+    padding-top: 100px;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    overflow-x: auto;
+    overflow: visible;
+}
+
+.tree {
+    width: max-content;
+    height: max-content;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    overflow-x: auto;
+    overflow: visible;
+}
+
+.node {
+    padding-top: 1.9vw;
+    position: relative;
+    border-radius: 15px 0 0 0;
+    transition: all 0.5s;
+}
+
+
+.person {
+    float: left;
+    text-align: center;
+    list-style-type: none;
+    position: relative;
+    padding: 1.25vw 2vw 0 0.5vw;
+    transition: all 0.5s;
+}
+
+.person::before, .person::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 50%;
+    border-top: 0.25vw solid #ccc;
+    width: 50%;
+    height: 1.05vw;
+}
+
+.person::after {
+    left: 50%;
+    border-left: 0.125vw solid #ccc;
+}
+
+.person :only-child::after, .person :only-child::before {
+    display: none;
+}
+
+.person:only-child {
+    padding-top: 0;
+}
+
+.person:first-child::before, .person:last-child::after {
+    border: 0 none;
+}
+
+.tree li:last-child::before {
+    border-right: 0.125vw solid #ccc;
+    border-radius: 0 15px 0 0;
+}
+
+.tree li:first-child::after {
+    border-radius: 15px 0 0 0;
+}
+
+.tree ul ul::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    border-left: 0.2vw solid #ccc;
+    height: 2vw;
+}
+
+.tree li div {
+    border: 0.2vw solid #ccc;
+    padding: 1vw 0.5vw;
+    text-decoration: none;
+    color: #666;
+    font-family: arial, verdana, tahoma;
+    font-size: 0.6vw;
+    display: inline-block;
+    border-radius: 10px;
+    transition: all 0.5s;
+}
+
+.tree li div:hover, .tree li div:hover+ul li div {
+    background: #b3d7f0;
+    color: #000;
+    transform: scale(1.1);
+    border: 0.2vw solid #94a0b4;
+}
+
+.tree li div:hover+ul li::after, .tree li div:hover+ul li::before, .tree li div:hover+ul::before, .tree li div:hover+ul ul::before {
+    border-color: #94a0b4;
+    transform: scale(1.1);
+}
+
+.innernode.has-children {
+    background-color: rgb(211, 231, 242);
+}
+
+
+.person.unexpanded ul ul {
+    display: none;
+}
+
+.person.unexpanded li:hover > ul {
+    display: block;
+}

@@ -1,0 +1,29 @@
+.top-menu-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    z-index: 1000; /* Ensures the top bar stays above other content */
+}
+
+.top-menu-bar h1 {
+font-size: 1.5em;
+}
+
+
+
+
+.top-menu-bar .family-select, .top-menu-bar select {
+width: 90%;
+display:inline-block;
+justify-content: center;
+padding: 5px 10px;
+border: 2px solid #161515;
+border-radius: 15px;
+margin: 0; /* Adjust as needed */
+color: #1a1919;
+}
