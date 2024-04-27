@@ -16,7 +16,6 @@ body, html {
     overflow-x: auto;
     overflow-y: visible;
 }
-
 .node {
     padding-top: 1.9vw;
     position: relative;
@@ -82,7 +81,7 @@ body, html {
 }
 
 .tree li div {
-    border: 0.2vw solid #ccc;
+    border: 3px solid #ccc;
     padding: 1vw 0.5vw;
     text-decoration: none;
     color: #666;
@@ -97,7 +96,7 @@ body, html {
     background: #b3d7f0;
     color: #000;
     transform: scale(1.1);
-    border: 0.2vw solid #94a0b4;
+    border: 3px solid #94a0b4;
 }
 
 .tree li div:hover + ul li::after, .tree li div:hover + ul li::before, .tree li div:hover + ul::before, .tree li div:hover + ul ul::before {
