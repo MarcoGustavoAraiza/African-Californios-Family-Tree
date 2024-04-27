@@ -1,5 +1,4 @@
 body, html {
-
     padding-top: 100px;
     margin: auto;
     display: flex;
@@ -15,7 +14,7 @@ body, html {
     flex-direction: column;
     align-items: flex-start;
     overflow-x: auto;
-    overflow: visible;
+    overflow-y: visible;
 }
 
 .node {
@@ -24,7 +23,6 @@ body, html {
     border-radius: 15px 0 0 0;
     transition: all 0.5s;
 }
-
 
 .person {
     float: left;
@@ -39,10 +37,13 @@ body, html {
     content: '';
     position: absolute;
     top: 0;
-    right: 50%;
-    border-top: 0.25vw solid #ccc;
     width: 50%;
+    border-top: 0.25vw solid #ccc;
     height: 1.05vw;
+}
+
+.person::before {
+    right: 50%;
 }
 
 .person::after {
@@ -50,7 +51,7 @@ body, html {
     border-left: 0.125vw solid #ccc;
 }
 
-.person :only-child::after, .person :only-child::before {
+.person:only-child::before, .person:only-child::after {
     display: none;
 }
 
@@ -59,7 +60,7 @@ body, html {
 }
 
 .person:first-child::before, .person:last-child::after {
-    border: 0 none;
+    border: none;
 }
 
 .tree li:last-child::before {
@@ -85,29 +86,27 @@ body, html {
     padding: 1vw 0.5vw;
     text-decoration: none;
     color: #666;
-    font-family: arial, verdana, tahoma;
-    font-size: 0.6vw;
+    font-family: Arial, Verdana, Tahoma;
+    font-size: 8px;
     display: inline-block;
     border-radius: 10px;
     transition: all 0.5s;
 }
 
-.tree li div:hover, .tree li div:hover+ul li div {
+.tree li div:hover, .tree li div:hover + ul li div {
     background: #b3d7f0;
     color: #000;
     transform: scale(1.1);
     border: 0.2vw solid #94a0b4;
 }
 
-.tree li div:hover+ul li::after, .tree li div:hover+ul li::before, .tree li div:hover+ul::before, .tree li div:hover+ul ul::before {
+.tree li div:hover + ul li::after, .tree li div:hover + ul li::before, .tree li div:hover + ul::before, .tree li div:hover + ul ul::before {
     border-color: #94a0b4;
-    transform: scale(1.1);
 }
 
 .innernode.has-children {
     background-color: rgb(211, 231, 242);
 }
-
 
 .person.unexpanded ul ul {
     display: none;
