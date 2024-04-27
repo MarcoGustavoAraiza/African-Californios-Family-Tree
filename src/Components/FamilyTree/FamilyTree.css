@@ -16,6 +16,7 @@ body, html {
     overflow-x: auto;
     overflow-y: visible;
 }
+
 .node {
     padding-top: 1.9vw;
     position: relative;
@@ -28,7 +29,7 @@ body, html {
     text-align: center;
     list-style-type: none;
     position: relative;
-    padding: 2vw 2vw 0 1vw;
+    padding: 2vw 2vw 0 2vw;
     transition: all 0.5s;
 }
 
