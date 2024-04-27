@@ -89,7 +89,7 @@ body, html {
     font-family: Arial, Verdana, Tahoma;
     font-size: 8px;
     display: inline-block;
-    border-radius: 10px;
+    border-radius: 1vw;
     transition: all 0.5s;
 }
 

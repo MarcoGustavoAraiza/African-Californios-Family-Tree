@@ -93,7 +93,6 @@ const FamilyTree = ({ selectedFamilies }) => {
 
 
 
-    
     return (
         <div className="tree">
                 <ul className='node'>
@@ -101,9 +100,9 @@ const FamilyTree = ({ selectedFamilies }) => {
                 selectedFamilies.includes(item.lastname) ? renderNode(item, index, index) : null)}
                 </ul>
         </div>
-    );
+);
 };
 
-    
+
 
 export default FamilyTree;
