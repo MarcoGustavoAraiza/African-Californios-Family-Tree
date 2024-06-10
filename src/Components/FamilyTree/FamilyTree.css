@@ -12,9 +12,10 @@ body, html {
     height: max-content;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center; /* Adjusted to center but will work with negative margins */
     overflow-x: auto;
     overflow-y: visible;
+    margin-left: -50px; /* Increased left margin shift */
 }
 
 .node {
@@ -25,11 +26,12 @@ body, html {
 }
 
 .person {
+    margin-left: -3vw;
     float: left;
     text-align: center;
     list-style-type: none;
     position: relative;
-    padding: 2vw 2vw 0 2vw;
+    padding: 2vw 2vw 2vw 2vw;
     transition: all 0.5s;
 }
 
@@ -81,7 +83,7 @@ body, html {
     height: 2vw;
 }
 
-.tree li div {
+.node-container div, .node-spouse-container div {
     border: 3px solid #ccc;
     padding: 1vw 0.5vw;
     text-decoration: none;
@@ -93,15 +95,52 @@ body, html {
     transition: all 0.5s;
 }
 
-.tree li div:hover, .tree li div:hover + ul li div {
-    background: #b3d7f0;
-    color: #000;
-    transform: scale(1.1);
-    border: 3px solid #94a0b4;
+.node-container:hover, .node-spouse-container:hover {
+    z-index: 100;
 }
 
-.tree li div:hover + ul li::after, .tree li div:hover + ul li::before, .tree li div:hover + ul::before, .tree li div:hover + ul ul::before {
-    border-color: #94a0b4;
+.node-container:hover div, .node-spouse-container:hover div {
+    background: #b3d7f0;
+    color: #000;
+    border: 3px solid #94a0b4;
+    transform: scale(1.1);
+}
+
+.node-container:hover .innernode, 
+.node-spouse-container:hover .innernode,
+.node-container:hover ~ ul .innernode,
+.node-spouse-container:hover ~ ul .innernode {
+    background: #b3d7f0;
+    color: #000;
+    border: 3px solid #94a0b4;
+    transform: scale(1.1);
+}
+
+.spouse-node::before {
+    content: '';
+    position: absolute;
+    top: 40%;
+    border-top: 0.25vw dashed #ccc;
+    height: 2vw;
+    padding-left: 2.2vw;
+    margin-left: -2.8vw;
+}
+
+.node-spouse-container {
+    position: relative;
+    margin-left: -10px; /* Adjust for left alignment */
+}
+
+.node-spouse-container div {
+    border: 3px solid #ccc;
+    padding: 1vw 0.5vw;
+    text-decoration: none;
+    color: #666;
+    font-family: Arial, Verdana, Tahoma;
+    font-size: 8px;
+    display: inline-block;
+    border-radius: 1.2vw;
+    transition: all 0.5s;
 }
 
 .innernode.has-children {
@@ -114,4 +153,8 @@ body, html {
 
 .person.unexpanded li:hover > ul {
     display: block;
+}
+
+.spouse-node {
+    margin-left: 2vw;
 }

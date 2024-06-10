@@ -15,7 +15,12 @@
     font-size: 1.5em;
   }
 
-
+  .zoom-slider-container {
+    position: absolute; /* Allows precise placement */
+    bottom: 0px; /* Positioned at the bottom */
+    left: 50%; /* Centered horizontally */
+    transform: translateX(-50%); /* Centering adjustment */
+  }
 
   
   .top-menu-bar .family-select, .top-menu-bar select {
