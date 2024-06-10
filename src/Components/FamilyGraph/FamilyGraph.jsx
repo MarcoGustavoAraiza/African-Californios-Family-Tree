@@ -359,7 +359,7 @@ const FamilyGraph = ({ selectedFamilies, onNodeHover, onNodeLeave, sidebarFamily
                 const fontSize = isHovered ? 14 / globalScale : 11 / globalScale;
                 ctx.font = `${fontSize}px Sans-Serif`;
                 const textWidth = ctx.measureText(label).width;
-                const padding = isHovered ? 6 : 4;
+                const padding = isHovered ? 4 : 2;
                 const bckgDimensions = [textWidth + padding * 2, fontSize + padding * 2];
                 const borderRadius = 8 / globalScale;
 
