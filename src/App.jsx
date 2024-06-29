@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import FamilyGraph from './Components/FamilyGraph/FamilyGraph';
 import TopMenuBar from './Components/TopMenuBar/TopMenuBar';
 import NodeInfo from './Components/NodeInfo/NodeInfo';
 import Sidebar from './Components/Sidebar/Sidebar';
+import { fetchAllFamilyNames, fetchPeople } from './api';
 import './index.css';
 
 const App = () => {
@@ -11,6 +12,20 @@ const App = () => {
     const [isInfoHovered, setIsInfoHovered] = useState(false); // State to track if the NodeInfo is hovered
     const [isSidebarOpen, setIsSidebarOpen] = useState(false); // State to track sidebar visibility
     const [sidebarFamily, setSidebarFamily] = useState(null)
+    const [familyData, setFamilyData] = useState([]);
+    const [peopleData, setPeopleData] = useState([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const fetchedFamilyData = await fetchAllFamilyNames();
+            const fetchedPeopleData = await fetchPeople();
+            setFamilyData(fetchedFamilyData);
+            setPeopleData(fetchedPeopleData);
+        };
+
+        fetchData();
+    }, []);
+
 
     const handleSelectFamily = (families) => {
         setSelectedFamilies(families);
@@ -51,11 +66,15 @@ const App = () => {
                 isOpen={isSidebarOpen}
                 onSelectFamily={handleSidebarFamily}
                 toggleSidebar={toggleSidebar}
+                familyData={familyData}
+                peopleData={peopleData}
             />
             <div className={`main-content ${isSidebarOpen ? 'sidebar-open' : ''}`}>
                 <TopMenuBar 
                     onSelectFamily={handleSelectFamily} 
                     selectedFamilies={selectedFamilies}
+                    familyData={familyData}
+                    peopleData={peopleData}
                 />
                 <div className="zoom-container">
                     <FamilyGraph 
@@ -63,12 +82,14 @@ const App = () => {
                         onNodeHover={handleNodeHover}
                         onNodeLeave={handleMouseLeave}
                         sidebarFamily={sidebarFamily}
+                        peopleData={peopleData}
                     />
                 </div>
                 <NodeInfo
                     hoveredNode={hoveredNode}
                     onMouseEnter={handleInfoMouseEnter}
                     onMouseLeave={handleInfoMouseLeave}
+                    peopleData={peopleData}
                 />
             </div>
         </div>

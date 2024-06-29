@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import './NodeInfo.css';
-import peopleData from '../../assets/people.json'; // Assuming the JSON file is in this location
+// import peopleData from '../../assets/people.json'; // Assuming the JSON file is in this location
 
-const NodeInfo = ({ hoveredNode, onMouseEnter, onMouseLeave }) => {
+const NodeInfo = ({ hoveredNode, onMouseEnter, onMouseLeave, peopleData }) => {
     const [spouse, setSpouse] = useState([]);
     const [children, setChildren] = useState([]);
     const [parents, setParents] = useState({ father: null, mother: null });
+
+
 
     useEffect(() => {
         if (hoveredNode) {

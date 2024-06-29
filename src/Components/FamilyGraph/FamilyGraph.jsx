@@ -1,18 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import { ForceGraph2D } from 'react-force-graph';
 import './FamilyGraph.css';
-import peopleData from '../../assets/people.json';
 
-const FamilyGraph = ({ selectedFamilies, onNodeHover, onNodeLeave, sidebarFamily }) => {
+// import peopleData from '../../assets/people.json';
+
+const FamilyGraph = ({ selectedFamilies, onNodeHover, onNodeLeave, sidebarFamily, peopleData }) => {
     const [nodes, setNodes] = useState([]);
     const [links, setLinks] = useState([]);
     const [renderedNodes, setRenderedNodes] = useState(new Set());
     const [clickedNodes, setClickedNodes] = useState([]);
     const [hoveredNode, setHoveredNode] = useState(null);
+    const [usingSidebar, setUsingSidebar] = useState(false);
+    const [dimensions, setDimensions] = useState({ width: window.innerWidth, height: window.innerHeight });
     let clickTimeout = null;
 
+    useEffect(() => {
+        const handleResize = () => {
+            setDimensions({ width: window.innerWidth, height: window.innerHeight });
+        };
+
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
+
     const handleNodeHover = node => {
-        console.log(node);
         setHoveredNode(node);
         const person = node ? node.type === 'person' ? peopleData.find(person => person.id === node.id) :
             peopleData.find(person => person.fid == (node.id.replace('-', '')) && person.id === null) : null;
@@ -32,6 +46,7 @@ const FamilyGraph = ({ selectedFamilies, onNodeHover, onNodeLeave, sidebarFamily
 
         if (sidebarFamily) {
             families = sidebarFamily.map(n => n)
+            setUsingSidebar(true);
         }
 
         if (!families) return;
@@ -69,29 +84,33 @@ const FamilyGraph = ({ selectedFamilies, onNodeHover, onNodeLeave, sidebarFamily
         if (sidebarFamily) {
             setLinks([])
             setNodes(graphNodes);
+            setClickedNodes([]);
             setRenderedNodes(new Set(graphNodes.map(node => node.id)));
         } else {
-            let chosen_trees = graphNodes.map(node => node.tree);
-            let newNodes = graphNodes.filter(n => !nodes.map(n => n.id).includes(n.id));
+            if (usingSidebar) {
+                setLinks([])
+                setNodes(graphNodes);
+                setClickedNodes([]);
+                setRenderedNodes(new Set(graphNodes.map(node => node.id)));
+                setUsingSidebar(false);
+            } else {
+                let chosen_trees = graphNodes.map(node => node.tree);
+                let newNodes = graphNodes.filter(n => !nodes.map(n => n.id).includes(n.id));
 
-            setRenderedNodes(new Set([...renderedNodes, ...newNodes.map(n => n.id)]));
+                setRenderedNodes(new Set([...renderedNodes, ...newNodes.map(n => n.id)]));
 
-            setNodes(nodes.filter(n => chosen_trees.includes(n.tree)).concat(newNodes));
-            setLinks(links.filter(l => chosen_trees.includes(l.tree)));
+                setNodes(nodes.filter(n => chosen_trees.includes(n.tree)).concat(newNodes));
+                setLinks(links.filter(l => chosen_trees.includes(l.tree)));
+            }
         }
-
-
-
-
-
-
-
 
     }, [selectedFamilies, sidebarFamily]);
 
     
     useEffect(() => {
-        if (sidebarFamily && links.length === 0 && nodes.length === 1) {
+        if (sidebarFamily && links.length === 0 && nodes.length === 1 && renderedNodes.size === 1) {
+            console.log(nodes)
+            console.log(links)
             handleNodeDoubleClick(nodes[0]);
         }
     }, [links, nodes]);
@@ -114,9 +133,7 @@ const FamilyGraph = ({ selectedFamilies, onNodeHover, onNodeLeave, sidebarFamily
                     
 
                     while (queuedNodes.length > 0) {
-                        queuedNodes.forEach(n => console.log(n));
                         const currentNode = queuedNodes.pop();
-                        console.log(currentNode)
                         currentClickedNodes = currentClickedNodes.filter(n => n !== currentNode.id);
 
                         queuedNodes = queuedNodes.concat(currentNodes.filter(n => n.referenced === currentNode.id));
@@ -177,7 +194,6 @@ const FamilyGraph = ({ selectedFamilies, onNodeHover, onNodeLeave, sidebarFamily
 
         const person = node.type === 'person' ? peopleData.find(person => person.id === node.id) :
             peopleData.find(person => person.fid == (node.id.replace('-', '')) && person.id === null);
-        console.log(person)
         if (person) {
             const personId = node.id
 
@@ -215,10 +231,7 @@ const FamilyGraph = ({ selectedFamilies, onNodeHover, onNodeLeave, sidebarFamily
 
 
             if (person.children) {
-                console.log(centerX)
-                console.log(person.children.length)
                 person.children.forEach((childId, index) => {
-                    console.log((((index) % 2 ? -1 : 1) * ((Math.floor((index) / 2) + 1) * (childOffsetX * ((node.gen%2) + 1)))))
                     if (!renderedNodes.has(childId)) {
                         const child = peopleData.find(p => p.id === childId);
                         if (child) {
@@ -341,6 +354,8 @@ const FamilyGraph = ({ selectedFamilies, onNodeHover, onNodeLeave, sidebarFamily
 
     return (
         <ForceGraph2D
+            width={dimensions.width}
+            height={dimensions.height}
             graphData={{ nodes, links }}
             nodeAutoColorBy="group"
             onNodeClick={handleNodeClick}

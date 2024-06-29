@@ -1,11 +1,12 @@
 import React from 'react';
 import Select from 'react-select';
 import './TopMenuBar.css';
-import familyData from '../../assets/all_family_names.json';
-import peopleData from '../../assets/people.json';
+// import familyData from '../../assets/all_family_names.json';
+// import peopleData from '../../assets/people.json';
 
-const TopMenuBar = ({ onSelectFamily, selectedFamilies }) => {
+const TopMenuBar = ({ onSelectFamily, selectedFamilies, familyData, peopleData }) => {
   const options = familyData.map(family => ({ label: family.name, value: family.id }));
+
 
   // const selectedOptions = options.filter(option => selectedFamilies.includes(option.value));
   const selectedOptions = options.filter(option =>
